@@ -34,7 +34,14 @@ class Vector2D:
 
         else:
             return False
-    
+
+    def get_substracted(self,vector):
+        x= self.x - vector.x
+        y= self.y - vector.y
+
+        return Vector2D(x, y)
+
+
     def mag(self):
         temp= (self.x**2)+(self.y**2)
         return sqrt(temp)
@@ -43,6 +50,10 @@ class Vector2D:
         magnitude= self.mag()
         self.x /= magnitude
         self.y /= magnitude
+
+    def dot(self, vector):
+        return (self.x*vector.x)+(vector.y*self.y)
+
 
     def __str__(self):
         return "("+str(self.x)+","+str(self.y)+")"
