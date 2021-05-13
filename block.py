@@ -7,6 +7,7 @@ class Block:
         self.location= location
         self.side_length= side_length
         self.model= pygame.Rect(location.x,location.y,side_length,side_length)
+        self.health= 2
 
     def shift_location(self,length):
         shift_vector= Vector2D(0,length)

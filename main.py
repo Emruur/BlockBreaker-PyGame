@@ -4,8 +4,12 @@ from vector import Vector2D
 from line_segment import LineSegment
 from block import Block
 
-WIDTH,HEIGHT= 800,800;
+pygame.font.init()
+
+WIDTH,HEIGHT= 700,700;
 WIN= pygame.display.set_mode((WIDTH,HEIGHT))
+
+font = pygame.font.Font('freesansbold.ttf', 32)
 
 GREY= (100,100,100)
 WHITE= (255,255,255)
@@ -87,8 +91,13 @@ def draw(shooting_direction):
     for row in blocks:
         for block in row:
             if not block== None:
+                text = font.render(str(block.health), True,YELLOW, BLACK)
+                textRect = text.get_rect()
+                textRect.center= (block.location.x+block.side_length/2,block.location.y+ block.side_length/2)
+
                 pygame.draw.rect(WIN, BLACK, block.model)
                 pygame.draw.rect(WIN, YELLOW, block.model,5)
+                WIN.blit(text, textRect)
         
 
 
@@ -107,12 +116,14 @@ def handle_ball_movement():
                         if b.location.x>= (block.location.x)-b.radius and b.location.x<= block.location.x+ block.side_length+ b.radius:
                             if b.location.y >= block.location.y-b.radius and b.location.y<= block.location.y+ block.side_length+ b.radius:
                                 index= row.index(block)
+                                block.health -= 1
                                 hit_type= block.ball_hit_on(b)
                                 if hit_type==1:
                                     b.velocity.y *= -1
                                 elif hit_type==2:
                                     b.velocity.x *= -1
-                                row[index]= None
+                                if(block.health==0):
+                                    row[index]= None
                                 
 
 
