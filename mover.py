@@ -19,6 +19,7 @@ class Mover:
         self.mass= 1
         self.in_bounds= False
 
+    
 
 
         

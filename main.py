@@ -13,7 +13,7 @@ RED= (255,0,0)
 YELLOW= (155,155 ,0)
 BLACK= (0,0,0)
 
-FPS= 60
+FPS= 120
 clock= pygame.time.Clock()
 
 base_width, base_height= 100,40
@@ -24,7 +24,9 @@ balls= []
 BLOCK_NUMBER= 10
 BLOCK_LENGTH= WIDTH/ BLOCK_NUMBER
 
-blocks= [[None]*BLOCK_NUMBER]*BLOCK_NUMBER
+blocks=  [[None]*BLOCK_NUMBER for _ in range(BLOCK_NUMBER)]
+
+GAME_OVER= pygame.USEREVENT+1
 
 def main(): 
     running= True
@@ -33,7 +35,6 @@ def main():
 
     
     ball_count= 5
-
     add_block_row()
 
 
@@ -42,6 +43,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running= False
+            if event.type == GAME_OVER:
+                pygame.time.delay(1000)
+                pygame.quit()
 
         if balls== []:  
 
@@ -125,8 +129,8 @@ def handle_ball_movement():
             elif b.location.y >= HEIGHT and b.in_bounds:
                 balls.remove(b)
                 if(balls==[]):
-                    #   add_block_row()
                     shift_blocks()
+                    add_block_row()
             
             
 def shoot_balls(shooting_direction, ball_count):
@@ -156,19 +160,27 @@ def add_block_row():
 
 
 def shift_blocks():
-    shift_vector= Vector2D(0,BLOCK_LENGTH)
+    
     for i in range(8,-1,-1):
         for e in range(9,-1,-1):
             block= blocks[i][e]
             if not block == None:
-                #print(block)
-                block.location.add(shift_vector)
+
+                block.shift_location(BLOCK_LENGTH)
                 blocks[i+1][e]= block
                 blocks[i][e]= None
-                
-                
 
-
+                if(i==8):
+                    pygame.event.post(pygame.event.Event(GAME_OVER))
+    
+                
+    #for r in blocks:
+        #for bl in r:
+            #if(bl== None):
+                #print(0,end="")
+            #else:
+                #print(1,end="")
+        #print("")
 
 
 
