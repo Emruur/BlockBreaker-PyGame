@@ -125,7 +125,7 @@ def handle_ball_movement():
             elif b.location.y >= HEIGHT and b.in_bounds:
                 balls.remove(b)
                 if(balls==[]):
-                    add_block_row()
+                    #   add_block_row()
                     shift_blocks()
             
             
@@ -157,14 +157,18 @@ def add_block_row():
 
 def shift_blocks():
     shift_vector= Vector2D(0,BLOCK_LENGTH)
-    for i, row in reversed(list(enumerate(blocks))):
-        for block in row:
-            if not block== None and not i==9:
-                
-                e= row.index(block)
-                print(i,e)
-                blocks[i+1][e]= block
+    for i in range(8,-1,-1):
+        for e in range(9,-1,-1):
+            block= blocks[i][e]
+            if not block == None:
+                #print(block)
                 block.location.add(shift_vector)
+                blocks[i+1][e]= block
+                blocks[i][e]= None
+                
+                
+
+
 
 
 
