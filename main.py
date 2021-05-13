@@ -26,18 +26,15 @@ BLOCK_LENGTH= WIDTH/ BLOCK_NUMBER
 
 blocks= [[None]*BLOCK_NUMBER]*BLOCK_NUMBER
 
-def main():
-
-    
-     
-    
-
+def main(): 
     running= True
     ready_to_shoot= False
     shooting_direction= None
 
     
     ball_count= 5
+
+    add_block_row()
 
 
     while running:
@@ -47,7 +44,6 @@ def main():
                 running= False
 
         if balls== []:  
-            add_block_row()
 
             if pygame.mouse.get_pressed()[0]:
                 location= pygame.mouse.get_pos()
@@ -100,7 +96,16 @@ def handle_ball_movement():
     if not balls==[]:
         for b in balls:
             b.update()
-            
+
+            for row in blocks:
+                for block in row:
+                    if not block== None:
+                        if b.location.x>= (block.location.x)-b.radius and b.location.x<= block.location.x+ block.side_length+ b.radius:
+                            if b.location.y >= block.location.y-b.radius and b.location.y<= block.location.y+ block.side_length+ b.radius:
+                                index= row.index(block)
+                                row[index]= None
+                                
+
 
             if b.location.y< HEIGHT and b.location.x > 0 and b.location.x<WIDTH:
                 b.in_bounds= True
@@ -119,6 +124,9 @@ def handle_ball_movement():
 
             elif b.location.y >= HEIGHT and b.in_bounds:
                 balls.remove(b)
+                if(balls==[]):
+                    add_block_row()
+                    shift_blocks()
             
             
 def shoot_balls(shooting_direction, ball_count):
@@ -145,6 +153,18 @@ def add_block_row():
     for i in range(0,BLOCK_NUMBER):
         block_location= base_location.get_multiplied(i)
         blocks[0][i]= Block(block_location,BLOCK_LENGTH)
+
+
+def shift_blocks():
+    shift_vector= Vector2D(0,BLOCK_LENGTH)
+    for i, row in reversed(list(enumerate(blocks))):
+        for block in row:
+            if not block== None and not i==9:
+                
+                e= row.index(block)
+                print(i,e)
+                blocks[i+1][e]= block
+                block.location.add(shift_vector)
 
 
 
