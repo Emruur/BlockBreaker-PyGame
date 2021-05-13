@@ -10,7 +10,16 @@ class Mover:
         self.accelaration= Vector2D(0,0)
         self.radius= radius
         self.mass= mass
-        
+    
+    def __init__(self, vector,velocity):
+        self.location= vector
+        self.radius= 10
+        self.velocity= velocity
+        self.accelaration= Vector2D(0,0)
+        self.mass= 1
+
+
+
         
     def applyForce(self,force:Vector2D):
         force_copy= force.copy()

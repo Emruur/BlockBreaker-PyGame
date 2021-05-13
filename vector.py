@@ -14,10 +14,25 @@ class Vector2D:
         else:
             return False
 
+    def get_added(self,vector):
+
+        x= self.x + vector.x
+        y= self.y + vector.y
+
+        return Vector2D(x,y)
+
     def mult(self,integer:float):
         
         self.x *= integer
         self.y *= integer
+
+    def get_multiplied(self, integer:float):
+
+        x= self.x * integer
+        y= self.y * integer
+
+        return Vector2D(x,y)
+
         
     def div(self, integer: float):
      
@@ -39,6 +54,14 @@ class Vector2D:
         x= self.x - vector.x
         y= self.y - vector.y
 
+        return Vector2D(x,y)
+
+
+
+    def get_substracted(self,vector):
+        x= self.x - vector.x
+        y= self.y - vector.y
+
         return Vector2D(x, y)
 
 
@@ -50,6 +73,14 @@ class Vector2D:
         magnitude= self.mag()
         self.x /= magnitude
         self.y /= magnitude
+
+    def get_normalized(self,vector):
+        magnitude= self.mag()
+        x=self.x / magnitude
+        y=self.y / magnitude
+
+        return Vector2D(x,y)
+
 
     def dot(self, vector):
         return (self.x*vector.x)+(vector.y*self.y)
