@@ -13,10 +13,11 @@ class Mover:
     
     def __init__(self, vector,velocity):
         self.location= vector
-        self.radius= 10
+        self.radius= 7
         self.velocity= velocity
         self.accelaration= Vector2D(0,0)
         self.mass= 1
+        self.in_bounds= False
 
 
 
