@@ -34,7 +34,7 @@ def main():
     shooting_direction= None
 
     
-    ball_count= 5
+    ball_count= 4
     add_block_row()
 
 
@@ -107,6 +107,11 @@ def handle_ball_movement():
                         if b.location.x>= (block.location.x)-b.radius and b.location.x<= block.location.x+ block.side_length+ b.radius:
                             if b.location.y >= block.location.y-b.radius and b.location.y<= block.location.y+ block.side_length+ b.radius:
                                 index= row.index(block)
+                                hit_type= block.ball_hit_on(b)
+                                if hit_type==1:
+                                    b.velocity.y *= -1
+                                elif hit_type==2:
+                                    b.velocity.x *= -1
                                 row[index]= None
                                 
 
@@ -142,7 +147,7 @@ def shoot_balls(shooting_direction, ball_count):
     dir_vector.normalize()
 
 
-    velocity= dir_vector.get_multiplied(-20)
+    velocity= dir_vector.get_multiplied(-12)
 
 
     for i in range(0, ball_count):
